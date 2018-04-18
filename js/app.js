@@ -27,12 +27,24 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
         if (openedCards.length == 2) {
             if (openedCards[0].getAttribute('data-card') === openedCards[1].getAttribute('data-card')) {            
-                console.log("match cards");
-                openedCards = [];
+                matchCards();
             } else {
                 console.log("not match cards");
                 openedCards = [];
             }
+        }
+    }
+
+    // lock matched cards
+    function matchCards() {
+        for (const card of openedCards) {
+            card.classList.remove('open');
+            card.classList.add('match');                            
+        }
+        openedCards = [];
+        matchCardsNum += 2;
+        if (matchCardsNum == totalCardsNum) {
+            console.log("winner");
         }
     }
 
