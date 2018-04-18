@@ -29,8 +29,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
             if (openedCards[0].getAttribute('data-card') === openedCards[1].getAttribute('data-card')) {            
                 matchCards();
             } else {
-                console.log("not match cards");
-                openedCards = [];
+                closeCards();
             }
         }
     }
@@ -46,6 +45,21 @@ document.addEventListener('DOMContentLoaded', function(event) {
         if (matchCardsNum == totalCardsNum) {
             console.log("winner");
         }
+    }
+
+    // close not matched cards
+    function closeCards() {
+        for (const card of openedCards) {
+            card.classList.remove('open'); 
+            card.classList.add('notmatch');              
+        }
+        let tempOpened = openedCards;
+        openedCards = []; 
+        setTimeout(function() {
+            for (const card of tempOpened) {
+                card.classList.remove('notmatch');               
+            }                   
+        }, 1000);
     }
 
     function startGame() {
