@@ -1,9 +1,40 @@
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener('DOMContentLoaded', function(event) {
 
+    const totalCardsNum = 16; // total number of cards
+
+    let openedCards = []; 
+    let matchCardsNum = 0; // current number of matched cards
     let container = document.querySelector('.container');
 
     // shuffle cards and display on deck
     startGame();
+
+    // handle clicks on cards
+    container.addEventListener('click', function(event) {
+        let target = event.target;
+        while (target != this) {
+            if (target.nodeName === 'LI' && target.className == 'card') {               
+                openCard(target); 
+                break;
+            }
+            target = target.parentNode;
+        }
+    });
+
+    function openCard(card) {
+        card.classList.add('open');
+        openedCards.push(card);
+
+        if (openedCards.length == 2) {
+            if (openedCards[0].getAttribute('data-card') === openedCards[1].getAttribute('data-card')) {            
+                console.log("match cards");
+                openedCards = [];
+            } else {
+                console.log("not match cards");
+                openedCards = [];
+            }
+        }
+    }
 
     function startGame() {
         let cards = getCards();
