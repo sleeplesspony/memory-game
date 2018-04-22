@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     function matchCards() {
         for (const card of openedCards) {
             card.classList.remove('open');
-            card.classList.add('match');                            
+            card.classList.add('match', 'animated', 'rubberBand');                          
         }
         openedCards = [];
         matchCardsNum += 2;
