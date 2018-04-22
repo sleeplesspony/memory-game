@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
     let activeStars = document.querySelectorAll('.stars li.active');
     let restartBut = document.querySelector('.restart');
     let winRestartBut = document.querySelector('.win-restart');
+    let timer = document.querySelector('.timer');
+    let gameTimer;
 
     // shuffle cards and display on deck
     startGame();
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     });
 
     restartBut.addEventListener('click', function() {
+        clearInterval(gameTimer);  
         restartGame();
     });
 
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     function restartGame() {
         let deck = document.querySelector('ul.deck');
-        deck.remove();
+        deck.remove();        
         openedCards = [];
         matchCardsNum = 0;
         resetScore();       
@@ -51,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         moves.innerHTML = movesNum;
         activeStars[1].classList.add('active');
         activeStars[2].classList.add('active');
-        currentStars = 3;
+        currentStars = 3;           
     }
 
     function openCard(card) {
@@ -77,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         openedCards = [];
         matchCardsNum += 2;
         if (matchCardsNum == totalCardsNum) {
+            clearInterval(gameTimer);
             showWinMessage();
         }
     }
@@ -100,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         let cards = getCards();
         let ulDeck = getCardsList(cards);    
         container.appendChild(ulDeck);
+        startTimer();
     }
 
     function getCards() {
@@ -153,6 +158,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
     function showWinMessage() {
         let winScore = document.querySelector('.win-score');
         winScore.innerHTML = `With ${movesNum} moves and ${currentStars} stars!`; 
+        let winTime = document.querySelector('.win-time');
+        winTime.innerHTML = timer.innerHTML; 
         let message = document.querySelector('.win-modal');
         message.classList.add('win-modal-active');
     }
@@ -160,6 +167,31 @@ document.addEventListener('DOMContentLoaded', function(event) {
     function closeWinMessage() {
         let message = document.querySelector('.win-modal');
         message.classList.remove('win-modal-active');
+    }
+
+    function startTimer () {
+        let hour = 0;
+        let min = 0; 
+        let sec = 0;
+
+        timer.innerHTML = '00:00:00';
+
+        gameTimer = setInterval(function() {
+            sec++;
+            if (sec == 60) {
+                sec = 0;
+                min++;
+                if (min == 60) {
+                    min = 0;
+                    hour++;
+                }
+            }
+            let secStr = (sec < 10) ? '0' + sec : sec;
+            let minStr = (min < 10) ? '0' + min : min;
+            let hourStr = (hour < 10) ? '0' + hour : hour;
+            let time = hourStr + ':' + minStr + ':' + secStr;            
+            timer.innerHTML = time;
+        }, 1000);
     }
 });
 

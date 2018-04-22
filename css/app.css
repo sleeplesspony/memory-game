@@ -115,6 +115,10 @@ h1 {
     cursor: pointer;
 }
 
+.score-panel .timer {
+    padding-left: 20px;
+}
+
 /*
  * Styles for animation
  */
@@ -256,7 +260,7 @@ h1 {
 .win-container {
     background-color: #fff;
     width: 440px;
-    padding: 20px 20px;
+    padding: 25px 20px;
     border-radius: 10px;
 }
 
@@ -276,7 +280,7 @@ h1 {
     border-color: #ffc107;
     border: 1px solid transparent;
     border-radius: 3px;
-    padding: 10px 22px;
+    padding: 12px 22px;
     font-size: 18px;
     margin-top: 15px;
 }
