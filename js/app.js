@@ -1,10 +1,15 @@
 document.addEventListener('DOMContentLoaded', function(event) {
 
     const totalCardsNum = 16; // total number of cards
-
+    const twoStarsScore = 18;
+    const oneStarScore = 30;
+    let currentStars = 3;
     let openedCards = []; 
     let matchCardsNum = 0; // current number of matched cards
+    let movesNum = 0; // number of user attempts to find a match
     let container = document.querySelector('.container');
+    let moves = document.querySelector('.moves');
+    let activeStars = document.querySelectorAll('.stars li.active');
 
     // shuffle cards and display on deck
     startGame();
@@ -26,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         openedCards.push(card);
 
         if (openedCards.length == 2) {
+            updateScore();
             if (openedCards[0].getAttribute('data-card') === openedCards[1].getAttribute('data-card')) {            
                 matchCards();
             } else {
@@ -102,8 +108,20 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
         return ulDeck;
     }
-});
 
+    function updateScore() {
+        movesNum++;
+        moves.innerHTML = movesNum;
+        if (movesNum == twoStarsScore) {            
+            activeStars[2].classList.remove('active');
+            currentStars = 2;
+        }
+        if (movesNum == oneStarScore) {
+            activeStars[1].classList.remove('active');
+            currentStars = 1;
+        }
+    }
+});
 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
