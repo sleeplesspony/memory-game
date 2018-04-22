@@ -51,13 +51,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
     function closeCards() {
         for (const card of openedCards) {
             card.classList.remove('open'); 
-            card.classList.add('notmatch');              
+            card.classList.add('notmatch', 'animated', 'tada');            
         }
         let tempOpened = openedCards;
         openedCards = []; 
         setTimeout(function() {
             for (const card of tempOpened) {
-                card.classList.remove('notmatch');               
+                card.classList.remove('notmatch', 'animated', 'tada');              
             }                   
         }, 1000);
     }
