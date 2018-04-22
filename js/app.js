@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
     let container = document.querySelector('.container');
     let moves = document.querySelector('.moves');
     let activeStars = document.querySelectorAll('.stars li.active');
+    let restartBut = document.querySelector('.restart');
+    let winRestartBut = document.querySelector('.win-restart');
 
     // shuffle cards and display on deck
     startGame();
@@ -25,6 +27,32 @@ document.addEventListener('DOMContentLoaded', function(event) {
             target = target.parentNode;
         }
     });
+
+    restartBut.addEventListener('click', function() {
+        restartGame();
+    });
+
+    winRestartBut.addEventListener('click', function() {
+        closeWinMessage();
+        restartGame();
+    });
+
+    function restartGame() {
+        let deck = document.querySelector('ul.deck');
+        deck.remove();
+        openedCards = [];
+        matchCardsNum = 0;
+        resetScore();       
+        startGame();
+    }
+
+    function resetScore() {
+        movesNum = 0;
+        moves.innerHTML = movesNum;
+        activeStars[1].classList.add('active');
+        activeStars[2].classList.add('active');
+        currentStars = 3;
+    }
 
     function openCard(card) {
         card.classList.add('open');
@@ -49,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         openedCards = [];
         matchCardsNum += 2;
         if (matchCardsNum == totalCardsNum) {
-            console.log("winner");
+            showWinMessage();
         }
     }
 
@@ -120,6 +148,18 @@ document.addEventListener('DOMContentLoaded', function(event) {
             activeStars[1].classList.remove('active');
             currentStars = 1;
         }
+    }
+
+    function showWinMessage() {
+        let winScore = document.querySelector('.win-score');
+        winScore.innerHTML = `With ${movesNum} moves and ${currentStars} stars!`; 
+        let message = document.querySelector('.win-modal');
+        message.classList.add('win-modal-active');
+    }
+
+    function closeWinMessage() {
+        let message = document.querySelector('.win-modal');
+        message.classList.remove('win-modal-active');
     }
 });
 
