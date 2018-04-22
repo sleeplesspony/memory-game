@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     function resetScore() {
         movesNum = 0;
-        moves.innerHTML = movesNum;
+        moves.innerHTML = movesNum + ' Moves';
         activeStars[1].classList.add('active');
         activeStars[2].classList.add('active');
         currentStars = 3;           
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     function updateScore() {
         movesNum++;
-        moves.innerHTML = movesNum;
+        moves.innerHTML = movesNum + ' Moves';
         if (movesNum == twoStarsScore) {            
             activeStars[2].classList.remove('active');
             currentStars = 2;
