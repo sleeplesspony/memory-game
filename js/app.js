@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function(event) {
 
     const totalCardsNum = 16; // total number of cards
-    const twoStarsScore = 18;
-    const oneStarScore = 30;
-    let currentStars = 3;
-    let openedCards = []; 
+    const twoStarsScore = 18; // number of moves for 2 stars rating 
+    const oneStarScore = 30; // number of moves for 1 star rating 
+    let currentStars = 3; // current stars rating
+    let openedCards = []; // buffer for opened cards
     let matchCardsNum = 0; // current number of matched cards
     let movesNum = 0; // number of user attempts to find a match
     let container = document.querySelector('.container');
@@ -15,10 +15,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
     let timer = document.querySelector('.timer');
     let gameTimer;
 
-    // shuffle cards and display on deck
     startGame();
 
-    // handle clicks on cards
+    /** handles clicks on cards */
     container.addEventListener('click', function(event) {
         let target = event.target;
         while (target != this) {
@@ -30,16 +29,21 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     });
 
+    /** handles click on restart button */
     restartBut.addEventListener('click', function() {
         clearInterval(gameTimer);  
         restartGame();
     });
 
+    /** handles click on restart button in modal window */
     winRestartBut.addEventListener('click', function() {
         closeWinMessage();
         restartGame();
     });
 
+    /**
+    * @description Restarts game: clears cards ul-list and adds new shuffled one, resets scores
+    */
     function restartGame() {
         let deck = document.querySelector('ul.deck');
         deck.remove();        
@@ -48,7 +52,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
         resetScore();       
         startGame();
     }
-
+    
+    /**
+    * @description Resets scores and star rating for new game
+    */
     function resetScore() {
         movesNum = 0;
         moves.innerHTML = movesNum + ' Moves';
@@ -57,6 +64,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
         currentStars = 3;           
     }
 
+    /**
+    * @description Opens card, adds it in buffer, checks if there are 2 matched cards in the buffer, handles matching and not matching opened cards
+    * @param {object} card - li card element
+    */
     function openCard(card) {
         card.classList.add('open');
         openedCards.push(card);
@@ -71,7 +82,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     }
 
-    // lock matched cards
+    /**
+    * @description Locks matched cards with animated effect, stops the game if all cards matched: stops timer, shows winner message
+    */
     function matchCards() {
         for (const card of openedCards) {
             card.classList.remove('open');
@@ -85,7 +98,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     }
 
-    // close not matched cards
+    /**
+    * @description Closes not matched cards with animated effect
+    */
     function closeCards() {
         for (const card of openedCards) {
             card.classList.remove('open'); 
@@ -100,6 +115,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }, 1000);
     }
 
+    /**
+    * @description Starts game: add cards on the page, start timer
+    */
     function startGame() {
         let cards = getCards();
         let ulDeck = getCardsList(cards);    
@@ -107,6 +125,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
         startTimer();
     }
 
+    /**
+    * @description Creates array with shuffled cards string values
+    */
     function getCards() {
         let cards = [
             'anchor',
@@ -123,7 +144,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
         return cards;
     }
 
-    // create ul-list of shuffled cards
+    /**
+    * @description Creates ul-list of shuffled cards
+    * @param {array} cards - Array of string cards values
+    * @returns {object} ul-list element
+    */
     function getCardsList(cards) {
         let ulDeck = document.createElement('ul');
         ulDeck.classList.add('deck');
@@ -142,6 +167,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
         return ulDeck;
     }
 
+    /**
+    * @description Updates scores info: numbers of moves for each pair of opened cards and star rating depending on number of moves 
+    */
     function updateScore() {
         movesNum++;
         moves.innerHTML = movesNum + ' Moves';
@@ -155,6 +183,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     }
 
+    /**
+    * @description Show modal window with message for winner, including scores info and game time
+    */
     function showWinMessage() {
         let winScore = document.querySelector('.win-score');
         winScore.innerHTML = `With ${movesNum} moves and ${currentStars} stars!`; 
@@ -164,11 +195,17 @@ document.addEventListener('DOMContentLoaded', function(event) {
         message.classList.add('win-modal-active');
     }
 
+    /**
+    * @description Close modal window with winner message
+    */
     function closeWinMessage() {
         let message = document.querySelector('.win-modal');
         message.classList.remove('win-modal-active');
     }
 
+    /**
+    * @description Creates and starts timer. Saves timer in gameTimer variable to be able to stop it later. Timer updates every second.
+    */
     function startTimer () {
         let hour = 0;
         let min = 0; 
@@ -195,6 +232,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
 });
 
+/**
+* @description Shuffles array values
+* @param {array} array
+* @returns {array} Shuffled array
+*/
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
